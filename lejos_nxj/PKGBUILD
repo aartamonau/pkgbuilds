@@ -5,7 +5,7 @@
 pkgname=lejos_nxj
 pkgver=0.8.5
 _pkgver=0_8_5beta
-pkgrel=1
+pkgrel=2
 pkgdesc="Tools for programming the Lego NXT brick in Java"
 arch=('i686' 'x86_64')
 license=('MPL' 'GPL' 'APACHE')
@@ -16,6 +16,7 @@ depends=('java-environment' 'java-runtime'
 makedepends=('apache-ant')
 source=(http://downloads.sourceforge.net/sourceforge/lejos/lejos_NXJ_${_pkgver}.tar.gz
         lejos_nxj_vars
+        70-lego.rules
         nxj
         nxjbrowse
         nxjc
@@ -34,6 +35,7 @@ source=(http://downloads.sourceforge.net/sourceforge/lejos/lejos_NXJ_${_pkgver}.
 
 md5sums=('459907391c98edd3932ce33a59caf800'
          '108b13aa7b55957c29165e59c7d07297'
+         '7d5aa5e40f00ff441c83c8377c471dba'
          'b18a05370a34f9a862d9ec795240c211'
          '35bd1b3c1b28b399ab52b5845f099dce'
          '558c1ce885d425580c2654b01cde8164'
@@ -64,7 +66,6 @@ build() {
     install -m644 -t ${pkgdir}/usr/share/java/lejos_nxj \
                      lib/*.jar || return 1
 
-    install -d -m755 ${pkgdir}/usr/share/lejos_nxj || return 1
     install -d -m755 ${pkgdir}/usr/share/lejos_nxj/bin || return 1
     install -m644 -t ${pkgdir}/usr/share/lejos_nxj/bin \
                      bin/*.bin || return 1
@@ -77,5 +78,9 @@ build() {
     install -d -m755 ${pkgdir}/usr/bin || return 1
     cd ${srcdir}
     install -m 755 -t ${pkgdir}/usr/bin \
-                      ${source[*]:2} || return 1
+                      ${source[*]:3} || return 1
+
+    install -d -m755 ${pkgdir}/etc/udev/rules.d || return 1
+    install -m644 -t ${pkgdir}/etc/udev/rules.d \
+                     ${srcdir}/70-lego.rules || return 1
 }
