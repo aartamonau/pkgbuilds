@@ -1,0 +1,10 @@
+prefix=/opt/v8
+exec_prefix=${prefix}
+libdir=/opt/v8/lib
+includedir=${prefix}/include
+
+Name: v8
+Description: V8 JavaScript Engine
+Version: @VERSION@
+Libs: -L${libdir} -lv8 -pthread
+Cflags: -I${includedir}
